@@ -26,7 +26,7 @@ export const Logo = styled.img`
 `;
 
 export const Map = styled.div`
-    background-color: red;
+    background-color: ${(props) => props.theme.colors.primary};
     width: 500px;
 `;
 

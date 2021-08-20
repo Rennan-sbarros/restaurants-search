@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import Slider from "react-slick";
 import TextField, { Input } from '@material/react-text-field';
 import MaterialIcon from '@material/react-material-icon';
 
 import logo from '../../assets/logo.svg';
 import imgRestaurante from '../../assets/restaurante-fake.png';
-import { Card } from '../../components';
+import { Card, RestaurantCard, Modal } from '../../components';
 
 import { Container , Search, Logo, Wrapper, Map, CarouselTitle, Carousel } from './styles';
 
 const Home = () => {
     const [inputValue, setInputValue] = useState();
+    const [modalOpened, setModalOpened] = useState(true);
 
     const settings = {
         dots: false,
@@ -47,8 +47,10 @@ const Home = () => {
                     <Card photo={imgRestaurante} title="Nome do Restaurante"/>
                 </Carousel>
             </Search>
+            <RestaurantCard />
         </Container>
         <Map />
+        <Modal open={modalOpened} onClose={() => setModalOpened(!modalOpened)} />
         </Wrapper>      
     );
 };
