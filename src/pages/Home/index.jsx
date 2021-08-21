@@ -4,12 +4,13 @@ import MaterialIcon from '@material/react-material-icon';
 
 import logo from '../../assets/logo.svg';
 import imgRestaurante from '../../assets/restaurante-fake.png';
-import { Card, RestaurantCard, Modal } from '../../components';
+import { Card, RestaurantCard, Modal, Map} from '../../components';
 
-import { Container , Search, Logo, Wrapper, Map, CarouselTitle, Carousel } from './styles';
+import { Container , Search, Logo, Wrapper, CarouselTitle, Carousel } from './styles';
 
 const Home = () => {
-    const [inputValue, setInputValue] = useState();
+    const [inputValue, setInputValue] = useState('');
+    const [query, setQuery] = useState(null)
     const [modalOpened, setModalOpened] = useState(true);
 
     const settings = {
@@ -20,6 +21,12 @@ const Home = () => {
         slidesToScroll: 4,
         adaptiveHeight: true, // Adapta a altura em relação ao conteúdo
     };
+
+    function handleKeyPress(e) {
+        if (e.key === 'Enter'){
+            setQuery(inputValue);
+        }
+    }
 
     return(
         <Wrapper>
@@ -33,6 +40,7 @@ const Home = () => {
                 >
                     <Input
                         value={inputValue}
+                        onKeyPress={handleKeyPress}
                         onChange={(e) => setInputValue(e.target.value)} />
                 </TextField>
                 <CarouselTitle>
@@ -49,8 +57,8 @@ const Home = () => {
             </Search>
             <RestaurantCard />
         </Container>
-        <Map />
-        <Modal open={modalOpened} onClose={() => setModalOpened(!modalOpened)} />
+        <Map query={query} />
+        {/*<Modal open={modalOpened} onClose={() => setModalOpened(!modalOpened)} />*/}
         </Wrapper>      
     );
 };
