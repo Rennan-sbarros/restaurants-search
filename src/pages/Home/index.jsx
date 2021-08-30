@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 import logo from '../../assets/logo.svg';
 import imgRestaurante from '../../assets/restaurante-fake.png';
-import { Card, RestaurantCard, Modal, Map} from '../../components';
+import { Card, RestaurantCard, Modal, Map, Loader} from '../../components';
 
 import { Container , Search, Logo, Wrapper, CarouselTitle, Carousel, ModalTitle, ModalContent } from './styles';
 import { Restaurant } from '../../components/RestaurantCard/styles';
@@ -15,7 +15,7 @@ const Home = () => {
     const [inputValue, setInputValue] = useState('');
     const [query, setQuery] = useState(null);
     const [placeId, setPlaceId] = useState(null);
-    const [modalOpened, setModalOpened] = useState(true);
+    const [modalOpened, setModalOpened] = useState(false);
     const { restaurants, restaurantSelected } = useSelector((state) => state.restaurants)
 
     const settings = {
@@ -54,18 +54,22 @@ const Home = () => {
                         onKeyPress={handleKeyPress}
                         onChange={(e) => setInputValue(e.target.value)} />
                 </TextField>
-                <CarouselTitle>
-                    Na sua Área
-                </CarouselTitle>
-                <Carousel {...settings}>
-                    {restaurants.map((restaurant) => (
-                    <Card 
-                    key={restaurant.place_id}
-                    photo={restaurant.photos ? restaurant.photos[0].getUrl() : imgRestaurante }
-                    title={restaurant.name}
-                    />
-                    ))}
-                </Carousel>
+                {restaurants.length > 0 ? (
+                    <>
+                        <CarouselTitle>Na sua Área</CarouselTitle>
+                        <Carousel {...settings}>
+                            {restaurants.map((restaurant) => (
+                                <Card 
+                                    key={restaurant.place_id}
+                                    photo={restaurant.photos ? restaurant.photos[0].getUrl() : imgRestaurante }
+                                    title={restaurant.name}
+                                />
+                            ))}
+                        </Carousel>        
+                    </>
+                ): (
+                    <Loader />
+                )}
             </Search>
             {restaurants.map((restaurant) => (
                 <RestaurantCard 
